@@ -1,0 +1,19 @@
+{
+  "name": "ibmventureagent",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "fetch": "^1.1.0",
+    "ngrok": "^5.0.0-beta.2",
+    "node-fetch": "^3.3.2"
+  }
+}

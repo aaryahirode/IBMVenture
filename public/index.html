@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>VenturePilot AI</title>
+  <style>
+    body { font-family: sans-serif; max-width: 700px; margin: 50px auto; }
+    textarea, input, button { padding: 10px; margin: 10px 0; width: 100%; }
+    pre { background: #f0f0f0; padding: 10px; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h2>Smart Business Planner</h2>
+
+  <input id="name" placeholder="Your Name">
+  <input id="email" placeholder="Email">
+  <input id="bizType" placeholder="Business Type (e.g., Hospital)">
+  <input id="location" placeholder="Location (e.g., Pune)">
+
+  <button onclick="generatePlan()">Generate Plan</button>
+
+  <h3>📋 Plan</h3>
+  <textarea id="output" rows="12" readonly></textarea>
+  <button onclick="revisePlan()">Something is missing?</button>
+  <textarea id="editPrompt" placeholder="What needs to be revised?" style="display:none;"></textarea>
+  <button onclick="submitRevision()" style="display:none;">Revise Plan</button>
+
+  <script src="/script.js"></script>
+</body>
+</html>
