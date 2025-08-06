@@ -1,41 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>VenturePilot AI</title>
-  <style>
-    body { font-family: sans-serif; max-width: 700px; margin: 50px auto; }
-    textarea, input, button { padding: 10px; margin: 10px 0; width: 100%; }
-    pre { background: #f0f0f0; padding: 10px; white-space: pre-wrap; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Business Planner</title>
+    <!-- The stylesheet is already correctly linked -->
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto+Slab:wght@500&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h2>Smart Business Planner</h2>
 
-  <input id="name" placeholder="Your Name">
-  <input id="email" placeholder="Email">
-  <input id="bizType" placeholder="Business Type (e.g., Hospital)">
-  <input id="location" placeholder="Location (e.g., Pune)">
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
 
-  <button onclick="generatePlan()">Generate Plan</button>
+<div class="container">
+    <h1>VENTURE LABS</h1>
 
-  <h3>📋 Plan</h3>
- <div style="position: relative;">
-  <textarea id="output" rows="12" readonly></textarea>
-  <button id="copyBtn" onclick="copyToClipboard()" style="
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    padding: 6px 10px;
-    font-size: 12px;
-    cursor: pointer;
-    z-index: 1;
-  ">📋 Copy</button>
+    <div class="main-layout">
+        <div class="form-card">
+            <input type="text" id="name" placeholder="Your Name">
+            <input type="email" id="email" placeholder="Email">
+            <!-- ID changed from "business" to "bizType" to match script.js -->
+            <input type="text" id="bizType" placeholder="Business Type (e.g., Hospital)">
+            <input type="text" id="location" placeholder="Location (e.g., Pune)">
+            <!-- Added onclick to call the function from script.js -->
+            <button id="generateBtn" onclick="generatePlan()">Generate Plan</button>
+        </div>
+
+        <div class="result-card">
+            <h2>Your Business Plan</h2>
+            <div class="textarea-wrapper">
+                <!-- ID changed from "result" to "output" to match script.js -->
+                <textarea id="output" readonly placeholder="Your personalized business strategy will appear here..."></textarea>
+                <!-- Added onclick to call the function from script.js -->
+                <button id="copyBtn" title="Copy to Clipboard" onclick="copyToClipboard()">📋 Copy</button>
+            </div>
+        </div>
+    </div>
 </div>
 
-  <!-- <button onclick="revisePlan()">Something is missing?</button>
-  <textarea id="editPrompt" placeholder="What needs to be revised?" style="display:none;"></textarea>
-  <button onclick="submitRevision()" style="display:none;">Revise Plan</button> -->
+<!-- Removed the old inline script and linked the external script.js file -->
+<script src="script.js"></script>
 
-  <script src="/script.js"></script>
 </body>
 </html>
