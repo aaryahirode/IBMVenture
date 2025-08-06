@@ -40,32 +40,43 @@ async function pollForPlan() {
   }, 3000);
 }
 
-function revisePlan() {
-  document.getElementById("editPrompt").style.display = "block";
-  document.querySelector('button[onclick="submitRevision()"]').style.display = "block";
-}
-
-async function submitRevision() {
-  const name = document.getElementById("name").value;
-  const email = document.getElementById("email").value;
-  const bizType = document.getElementById("bizType").value;
-  const location = document.getElementById("location").value;
-  const editPrompt = document.getElementById("editPrompt").value;
-
-  if (!validateInputs(name, email, bizType, location)) return;
-
-  await fetch("/api/revise", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      name,
-      email,
-      business_type: bizType,
-      location,
-      custom_prompt: editPrompt,
-      previous_plan: currentPlan
-    })
+function copyToClipboard() {
+  const output = document.getElementById("output");
+  navigator.clipboard.writeText(output.value).then(() => {
+    const copyBtn = document.getElementById("copyBtn");
+    copyBtn.textContent = "✅ Copied!";
+    setTimeout(() => {
+      copyBtn.textContent = "📋 Copy";
+    }, 1500);
   });
-
-  pollForPlan();
 }
+
+// function revisePlan() {
+//   document.getElementById("editPrompt").style.display = "block";
+//   document.querySelector('button[onclick="submitRevision()"]').style.display = "block";
+// }
+
+// async function submitRevision() {
+//   const name = document.getElementById("name").value;
+//   const email = document.getElementById("email").value;
+//   const bizType = document.getElementById("bizType").value;
+//   const location = document.getElementById("location").value;
+//   const editPrompt = document.getElementById("editPrompt").value;
+
+//   if (!validateInputs(name, email, bizType, location)) return;
+
+//   await fetch("/api/revise", {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify({
+//       name,
+//       email,
+//       business_type: bizType,
+//       location,
+//       custom_prompt: editPrompt,
+//       previous_plan: currentPlan
+//     })
+//   });
+
+//   pollForPlan();
+// }

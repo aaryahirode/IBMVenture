@@ -67,41 +67,41 @@ app.post("/api/plan", async (req, res) => {
 });
 
 // 🔁 Plan Revision
-app.post("/api/revise", async (req, res) => {
-  const {
-    name,
-    email,
-    business_type,
-    location,
-    custom_prompt,
-    previous_plan
-  } = req.body;
+// app.post("/api/revise", async (req, res) => {
+//   const {
+//     name,
+//     email,
+//     business_type,
+//     location,
+//     custom_prompt,
+//     previous_plan
+//   } = req.body;
 
-  const payload = {
-    inputs: {
-      name,
-      email,
-      business_type,
-      location,
-      custom_prompt,
-      previous_plan,
-      callback_url: `${BASE_URL}/webhook`
-    }
-  };
+//   const payload = {
+//     inputs: {
+//       name,
+//       email,
+//       business_type,
+//       location,
+//       custom_prompt,
+//       previous_plan,
+//       callback_url: `${BASE_URL}/webhook`
+//     }
+//   };
 
-  try {
-    await fetch(process.env.RELAY_TRIGGER_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
+//   try {
+//     await fetch(process.env.RELAY_TRIGGER_URL, {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify(payload)
+//     });
 
-    res.json({ status: "Triggered revision" });
-  } catch (error) {
-    console.error("Error revising via Relay:", error);
-    res.status(500).json({ error: "Failed to revise via Relay" });
-  }
-});
+//     res.json({ status: "Triggered revision" });
+//   } catch (error) {
+//     console.error("Error revising via Relay:", error);
+//     res.status(500).json({ error: "Failed to revise via Relay" });
+//   }
+// });
 
 
 app.post("/webhook", (req, res) => {
