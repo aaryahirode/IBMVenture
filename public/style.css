@@ -24,9 +24,8 @@ body {
 
 /* --- Animated Background Blobs --- */
 .blob {
-    position: absolute;
+    position: fixed; /* <-- CHANGE THIS from 'absolute' */
     z-index: 0;
-    /* NEW: Soft pink and peach gradient for blobs */
     background: linear-gradient(135deg, #ffdde1, #ee9ca7);
     border-radius: 50% 50% 50% 50% / 60% 40% 60% 40%;
     animation: move 15s infinite alternate;
