@@ -13,8 +13,18 @@ async function generatePlan() {
   const email = document.getElementById("email").value;
   const bizType = document.getElementById("bizType").value;
   const location = document.getElementById("location").value;
+  
+  const loader = document.getElementById("loader");
+  const output = document.getElementById("output");
+  const generateBtn = document.getElementById("generateBtn"); // Get the button
 
   if (!validateInputs(name, email, bizType, location)) return;
+  
+  // Disable button and show loading state
+  generateBtn.disabled = true;
+  generateBtn.textContent = "Generating...";
+  loader.classList.remove("hidden");
+  output.innerHTML = "";
 
   await fetch("/api/plan", {
     method: "POST",
@@ -27,6 +37,9 @@ async function generatePlan() {
 
 async function pollForPlan() {
   const output = document.getElementById("output");
+  const loader = document.getElementById("loader");
+  const generateBtn = document.getElementById("generateBtn"); // Get the button
+  const converter = new showdown.Converter();
 
   const interval = setInterval(async () => {
     const response = await fetch("/api/check");
@@ -34,15 +47,23 @@ async function pollForPlan() {
 
     if (data.final_plan) {
       clearInterval(interval);
-      output.value = data.final_plan;
+      loader.classList.add("hidden");
+      
+      const html = converter.makeHtml(data.final_plan);
+      output.innerHTML = html;
+      
       currentPlan = data.final_plan;
+
+      // Re-enable the button and restore its text
+      generateBtn.disabled = false;
+      generateBtn.textContent = "Generate Plan";
     }
   }, 3000);
 }
 
 function copyToClipboard() {
   const output = document.getElementById("output");
-  navigator.clipboard.writeText(output.value).then(() => {
+  navigator.clipboard.writeText(output.innerText).then(() => {
     const copyBtn = document.getElementById("copyBtn");
     copyBtn.textContent = "✅ Copied!";
     setTimeout(() => {
@@ -50,33 +71,3 @@ function copyToClipboard() {
     }, 1500);
   });
 }
-
-// function revisePlan() {
-//   document.getElementById("editPrompt").style.display = "block";
-//   document.querySelector('button[onclick="submitRevision()"]').style.display = "block";
-// }
-
-// async function submitRevision() {
-//   const name = document.getElementById("name").value;
-//   const email = document.getElementById("email").value;
-//   const bizType = document.getElementById("bizType").value;
-//   const location = document.getElementById("location").value;
-//   const editPrompt = document.getElementById("editPrompt").value;
-
-//   if (!validateInputs(name, email, bizType, location)) return;
-
-//   await fetch("/api/revise", {
-//     method: "POST",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify({
-//       name,
-//       email,
-//       business_type: bizType,
-//       location,
-//       custom_prompt: editPrompt,
-//       previous_plan: currentPlan
-//     })
-//   });
-
-//   pollForPlan();
-// }

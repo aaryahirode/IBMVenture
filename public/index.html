@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Business Planner</title>
-    <!-- The stylesheet is already correctly linked -->
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto+Slab:wght@500&display=swap" rel="stylesheet">
 </head>
@@ -20,26 +19,27 @@
         <div class="form-card">
             <input type="text" id="name" placeholder="Your Name">
             <input type="email" id="email" placeholder="Email">
-            <!-- ID changed from "business" to "bizType" to match script.js -->
             <input type="text" id="bizType" placeholder="Business Type (e.g., Hospital)">
             <input type="text" id="location" placeholder="Location (e.g., Pune)">
-            <!-- Added onclick to call the function from script.js -->
             <button id="generateBtn" onclick="generatePlan()">Generate Plan</button>
         </div>
 
         <div class="result-card">
             <h2>Your Business Plan</h2>
             <div class="textarea-wrapper">
-                <!-- ID changed from "result" to "output" to match script.js -->
-                <textarea id="output" readonly placeholder="Your personalized business strategy will appear here..."></textarea>
-                <!-- Added onclick to call the function from script.js -->
+                <div id="loader" class="loader hidden"></div>
+                
+                <!-- Replaced textarea with a div for HTML rendering -->
+                <div id="output" class="output-content" placeholder="Your personalized business strategy will appear here..."></div>
+                
                 <button id="copyBtn" title="Copy to Clipboard" onclick="copyToClipboard()">📋 Copy</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Removed the old inline script and linked the external script.js file -->
+<!-- Added Showdown library for Markdown to HTML conversion -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
 <script src="script.js"></script>
 
 </body>
