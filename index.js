@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
 import fetch from "node-fetch";
-import ngrok from "ngrok";
 
 dotenv.config();
 
@@ -11,36 +10,30 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const port = 3000;
-
 let latestPlan = null;
-let BASE_URL = "";
+
+// Vercel provides the base URL automatically through an environment variable.
+// It will be something like "my-app-name.vercel.app".
+// We fall back to a local URL for local testing.
+const BASE_URL = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000';
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
 
-app.listen(port, async () => {
-  console.log(`Server running on http://localhost:${port}`);
-  try {
-    BASE_URL = await ngrok.connect({
-      addr: port,
-      authtoken: process.env.NGROK_AUTHTOKEN, // Required!
-    });
-    console.log(`🌐 Ngrok public URL: ${BASE_URL}`);
-    console.log(`📩 Webhook will be sent to: ${BASE_URL}/webhook`);
-  } catch (err) {
-    console.error("❌ Error starting ngrok:", err);
-  }
-});
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
+// This handles the root path to serve your index.html
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
-
 
 app.post("/api/plan", async (req, res) => {
   const { name, email, business_type, location } = req.body;
+
+  // The webhook URL is now constructed dynamically based on the deployment URL
+  const webhookUrl = `${BASE_URL}/api/webhook`;
+  console.log(`Sending webhook callback to: ${webhookUrl}`);
 
   const payload = {
     inputs: {
@@ -48,7 +41,7 @@ app.post("/api/plan", async (req, res) => {
       email,
       business_type,
       location,
-      callback_url: `${BASE_URL}/webhook`
+      callback_url: webhookUrl
     }
   };
 
@@ -58,7 +51,6 @@ app.post("/api/plan", async (req, res) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
-
     res.json({ status: "Triggered" });
   } catch (error) {
     console.error("Error triggering Relay:", error);
@@ -66,7 +58,7 @@ app.post("/api/plan", async (req, res) => {
   }
 });
 
-app.post("/webhook", (req, res) => {
+app.post("/api/webhook", (req, res) => {
   const { outputs } = req.body;
 
   if (outputs?.final_plan) {
@@ -79,7 +71,6 @@ app.post("/webhook", (req, res) => {
   }
 });
 
-
 app.get("/api/check", (req, res) => {
   if (latestPlan) {
     const result = latestPlan;
@@ -90,3 +81,6 @@ app.get("/api/check", (req, res) => {
   }
 });
 
+// Vercel doesn't use app.listen(). Instead, we export the app.
+// For local development, you can run `vercel dev` which will use this export.
+export default app;
