@@ -167,7 +167,7 @@ h1 {
 /* --- STYLES FOR OUTPUT DIV --- */
 .output-content {
     width: 100%;
-    flex: 1;
+    height: calc(100vh - 305px);
     padding: 15px;
     border-radius: 10px;
     border: 1px solid #e0e0e0;
