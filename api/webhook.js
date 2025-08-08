@@ -1,4 +1,4 @@
-let latestPlan = null;
+const plansCache = {};
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -8,7 +8,12 @@ export default async function handler(req, res) {
   const { outputs } = req.body;
 
   if (outputs?.final_plan) {
-    latestPlan = outputs.final_plan;
+    // Store plan with timestamp (to auto-expire)
+    plansCache["latest"] = {
+      content: outputs.final_plan,
+      timestamp: Date.now()
+    };
+
     console.log("✅ Plan received from Relay");
     res.status(200).json({ ok: true });
   } else {
@@ -17,5 +22,5 @@ export default async function handler(req, res) {
   }
 }
 
-// Export to allow api/check to read it
-export { latestPlan };
+// Export to allow api/check to access it
+export { plansCache };

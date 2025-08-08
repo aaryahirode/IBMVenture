@@ -7,15 +7,19 @@ export default async function handler(req, res) {
 
   const { name, email, business_type, location } = req.body;
 
-  const payload = {
-    inputs: {
-      name,
-      email,
-      business_type,
-      location,
-      callback_url: `${process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000'}/api/webhook`
-    }
-  };
+  const host = req.headers.host;
+const callback_url = `https://${host}/api/webhook`;
+
+const payload = {
+  inputs: {
+    name,
+    email,
+    business_type,
+    location,
+    callback_url
+  }
+};
+
 
   try {
     await fetch(process.env.RELAY_TRIGGER_URL, {
