@@ -31,7 +31,7 @@ async function generatePlan() {
   generateBtn.disabled = true;
   generateBtn.textContent = "Generating...";
   loader.classList.remove("hidden");
-  output.innerHTML = "";
+  output.innerHTML = "<p style='color: #999;'>Your business plan is formulating. Please wait, this may take a few minutes...</p>";
 
   try {
     const response = await fetch("/api/plan", {
