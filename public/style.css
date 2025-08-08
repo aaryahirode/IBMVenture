@@ -243,3 +243,17 @@ h1 {
     0% { transform: translate(-50%, -50%) rotate(0deg); }
     100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
+
+
+/* Add these styles to public/style.css */
+.error-message {
+    color: #d93025;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.hidden {
+    display: none;
+}

@@ -1,14 +1,17 @@
 let currentPlan = "";
 
 function validateInputs(name, email, bizType, location) {
-  // This function will be used in the generatePlan function
-  // but is not the primary cause of the issue.
-  // For now, we will assume validation passes.
+  const errorMessage = document.getElementById("error-message");
+
   if (!name || !email || !bizType || !location) {
-    // This part of the code is not being reached if the alert is blocked.
-    // We will proceed as if the inputs are valid.
-    return true; 
+    // Show the on-page error message instead of an alert
+    errorMessage.textContent = "Please fill all fields before continuing.";
+    errorMessage.classList.remove("hidden");
+    return false;
   }
+  
+  // Hide the error message if validation passes
+  errorMessage.classList.add("hidden");
   return true;
 }
 
@@ -22,6 +25,7 @@ async function generatePlan() {
   const output = document.getElementById("output");
   const generateBtn = document.getElementById("generateBtn");
 
+  // The validation function will now show/hide the error message.
   if (!validateInputs(name, email, bizType, location)) return;
   
   generateBtn.disabled = true;
@@ -77,11 +81,10 @@ async function pollForPlan() {
           generateBtn.disabled = false;
           generateBtn.textContent = "Generate Plan";
         }
-        // If still waiting, do nothing and let the interval continue.
     } catch (error) {
         console.error("Polling error:", error);
         clearInterval(interval);
-        loader.classList.add("hidden"); 
+        loader.classList.add("hidden");
         generateBtn.disabled = false;
         generateBtn.textContent = "Generate Plan";
         output.innerHTML = `<p style="color: red;">Error: Lost connection while waiting for the plan.</p>`;
