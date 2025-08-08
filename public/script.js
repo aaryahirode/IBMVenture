@@ -82,7 +82,7 @@ async function pollForPlan() {
           generateBtn.textContent = "Generate Plan";
         }
     } catch (error) {
-        console.error("Polling error:", error);
+        console.error("Polling error:", await response.text());
         clearInterval(interval);
         loader.classList.add("hidden");
         generateBtn.disabled = false;
