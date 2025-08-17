@@ -8,7 +8,7 @@ export default async function handler(req, res) {
   const { name, email, business_type, location } = req.body;
 
   const host = req.headers.host;
-const callback_url = `https://${host}/api/webhook`;
+const callback_url = `${process.env.BASE_URL}/api/webhook`;
 
 const payload = {
   inputs: {
